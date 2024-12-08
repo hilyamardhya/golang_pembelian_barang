@@ -56,7 +56,7 @@ CREATE TABLE `pembelian` (
   `Nama` varchar(50) DEFAULT NULL,
   `Barang` varchar(100) DEFAULT NULL,
   `Jumlah` int(11) DEFAULT NULL,
-  `TotalBayar` int(11) DEFAULT NULL,
+  `TotalBayar` decimal(10, 2) DEFAULT NULL,
   `IdBarang` int(11) NOT NULL,
   `Tanggal` date DEFAULT CURDATE()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

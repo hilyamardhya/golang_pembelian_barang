@@ -1,0 +1,85 @@
+[
+  {
+    "ContainingType": "API_Beli_barang.Controllers.barangController",
+    "Method": "GetAll",
+    "RelativePath": "api",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Api_Sddp.MODELS.barang, Api_Sddp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API_Beli_barang.Controllers.barangController",
+    "Method": "PostPembelian",
+    "RelativePath": "api/pembelian",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pembelian",
+        "Type": "Api_Sddp.MODELS.pembelian",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_Beli_barang.Controllers.barangController",
+    "Method": "GetRiwayatPembeli",
+    "RelativePath": "api/riwayatPembeli/{namaPembeli}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "namaPembeli",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Api_Sddp.MODELS.pembelian, Api_Sddp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API_Beli_barang.Controllers.barangController",
+    "Method": "UpdateStok",
+    "RelativePath": "api/updateStok/{IdBarang}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdBarang",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "jumlahPembeli",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

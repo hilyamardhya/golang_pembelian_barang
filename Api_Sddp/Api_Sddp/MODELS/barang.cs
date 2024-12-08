@@ -3,8 +3,8 @@
     public class barang 
     {
         public string NamaBarang { get; set; }
-        public int Jumlah { get; set; }
-        public double TotalBayar { get; set; }  
+        public decimal Harga { get; set; }
+        public int Stok { get; set; }
         public int IdBarang { get; set; }  
 
     }

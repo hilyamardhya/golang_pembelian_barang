@@ -1,11 +1,14 @@
 ﻿namespace Api_Sddp.MODELS
 {
-    public class Pembeli
+    public class pembelian
     {
+        
+        public string Nama { get;  set; }
+        public string Barang { get; set; }
+        public int Jumlah { get; set; }
+        public double TotalBayar { get; set; }
         public int IdBarang { get; set; }
-        public string namaPembeli { get;  set; }
-        public string NamaBarang { get; set; }
-        public decimal Harga { get; set; }
-        public int Stok { get; set; }
+
+
     }
 }

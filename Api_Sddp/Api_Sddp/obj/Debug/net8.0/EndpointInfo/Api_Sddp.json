@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Api_Sddp",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api": {
+      "get": {
+        "tags": [
+          "barang"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/barang"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/barang"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/barang"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pembelian": {
+      "post": {
+        "tags": [
+          "barang"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pembelian"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pembelian"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pembelian"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/updateStok/{IdBarang}": {
+      "put": {
+        "tags": [
+          "barang"
+        ],
+        "parameters": [
+          {
+            "name": "IdBarang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/riwayatPembeli/{namaPembeli}": {
+      "get": {
+        "tags": [
+          "barang"
+        ],
+        "parameters": [
+          {
+            "name": "namaPembeli",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/pembelian"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/pembelian"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/pembelian"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "barang": {
+        "type": "object",
+        "properties": {
+          "namaBarang": {
+            "type": "string",
+            "nullable": true
+          },
+          "harga": {
+            "type": "number",
+            "format": "double"
+          },
+          "stok": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idBarang": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "pembelian": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "nullable": true
+          },
+          "barang": {
+            "type": "string",
+            "nullable": true
+          },
+          "jumlah": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalBayar": {
+            "type": "number",
+            "format": "double"
+          },
+          "idBarang": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
