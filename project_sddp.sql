@@ -28,17 +28,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `barang` (
-  `ID_barang` int(11) NOT NULL,
-  `nama_barang` varchar(100) DEFAULT NULL,
-  `harga` int(11) DEFAULT NULL,
-  `stok` int(11) DEFAULT NULL
+  `IdBarang` int(11) NOT NULL,
+  `NamaBarang` varchar(100) DEFAULT NULL,
+  `Harga` decimal(10,2) NOT NULL,
+  `Stok` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-  
+
 --
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`ID_barang`, `nama_barang`, `harga`, `stok`) VALUES
+INSERT INTO `barang` (`IdBarang`, `NamaBarang`, `Harga`, `Stok`) VALUES
 (1, 'Buku Tulis', 3000, 20),
 (2, 'Pulpen', 3000, 500),
 (3, 'Penghapus', 5000, 200),
@@ -52,13 +52,13 @@ INSERT INTO `barang` (`ID_barang`, `nama_barang`, `harga`, `stok`) VALUES
 --
 
 CREATE TABLE `pembelian` (
-  `ID_pembelian` int(11) NOT NULL,
-  `nama` varchar(50) DEFAULT NULL,
-  `barang` varchar(100) DEFAULT NULL,
-  `jumlah` int(11) DEFAULT NULL,
-  `total_bayar` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL,
-  `ID_barang` int(11) DEFAULT NULL
+  `IdPembelian` int(11) NOT NULL,
+  `Nama` varchar(50) DEFAULT NULL,
+  `Barang` varchar(100) DEFAULT NULL,
+  `Jumlah` int(11) DEFAULT NULL,
+  `TotalBayar` int(11) DEFAULT NULL,
+  `IdBarang` int(11) NOT NULL,
+  `Tanggal` date DEFAULT CURDATE()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -69,14 +69,14 @@ CREATE TABLE `pembelian` (
 -- Indexes for table `barang`
 --
 ALTER TABLE `barang`
-  ADD PRIMARY KEY (`ID_barang`);
+  ADD PRIMARY KEY (`IdBarang`);
 
 --
 -- Indexes for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  ADD PRIMARY KEY (`ID_pembelian`),
-  ADD KEY `ID_barang` (`ID_barang`);
+  ADD PRIMARY KEY (`IdPembelian`),
+  ADD KEY `IdBarang` (`IdBarang`);
 
 --
 -- Constraints for dumped tables
@@ -86,7 +86,7 @@ ALTER TABLE `pembelian`
 -- Constraints for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  ADD CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`ID_barang`) REFERENCES `barang` (`ID_barang`);
+  ADD CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`IdBarang`) REFERENCES `barang` (`IdBarang`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
