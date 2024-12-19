@@ -1,4 +1,4 @@
-package main // folder
+package main
 
 import (
 	"bufio"
@@ -13,10 +13,10 @@ import (
 	"time"
 )
 
-const apiURL = "https://localhost:7228/api" //url
+const apiURL = "https://localhost:7228/api"
 
-type Barang struct { //membuat class baru dengan nama Barang dan terstruktur sesuai dengan tabel
-	NamaBarang string  `json:"namaBarang"` //json == format data hasil dari db
+type Barang struct {
+	NamaBarang string  `json:"namaBarang"`
 	Harga      float64 `json:"harga"`
 	Stok       int     `json:"stok"`
 	IdBarang   int     `json:"idBarang"`
@@ -30,16 +30,16 @@ type Pembelian struct {
 	IdBarang   int     `json:"idBarang"`
 }
 
-type Stack struct { // membuat stack
+type Stack struct {
 	elements []Pembelian
 }
 
-func (s *Stack) Push(p Pembelian) { // untuk nyimpan data pembelian
-	s.elements = append(s.elements, p) // dengan bahasa append
+func (s *Stack) Push(p Pembelian) {
+	s.elements = append(s.elements, p)
 }
 
-func (s *Stack) Pop() (Pembelian, bool) { // untuk menghapus
-	if len(s.elements) == 0 { // if lens untuk mengukur panjang
+func (s *Stack) Pop() (Pembelian, bool) {
+	if len(s.elements) == 0 {
 		return Pembelian{}, false
 	}
 	last := s.elements[len(s.elements)-1]
@@ -47,7 +47,7 @@ func (s *Stack) Pop() (Pembelian, bool) { // untuk menghapus
 	return last, true
 }
 
-func (s *Stack) Peek() (Pembelian, bool) { //untuk melihat nilai elemen
+func (s *Stack) Peek() (Pembelian, bool) {
 	if len(s.elements) == 0 {
 		return Pembelian{}, false
 	}
@@ -57,24 +57,25 @@ func (s *Stack) Peek() (Pembelian, bool) { //untuk melihat nilai elemen
 var riwayatPembelian Stack
 
 func main() {
-	barang, err := getAllBarang() //err=variabel error
+	barang, err := getAllBarang()
 	if err != nil {
 		log.Fatalf("Gagal mengambil data barang: %v", err)
 	}
 
-	displayIntro() //method
+	displayIntro()
 	displayBarangTabel(barang)
 
-	for { // looping
+	for {
 		fmt.Println("\nMenu:")
 		fmt.Println("1. Lakukan Pembelian")
 		fmt.Println("2. Lihat Riwayat Pembelian")
-		fmt.Println("3. Keluar")
-		fmt.Print("Pilih opsi (1/2/3): ")
+		fmt.Println("3. Cari Riwayat Pembelian Berdasarkan Nama")
+		fmt.Println("4. Keluar")
+		fmt.Print("Pilih opsi (1/2/3/4): ")
 		var pilihan int
 		fmt.Scanln(&pilihan)
 
-		switch pilihan { //percabangan
+		switch pilihan {
 		case 1:
 			pembelian := inputPembelian(barang)
 			if pembelian.TotalBayar > 0 {
@@ -92,15 +93,36 @@ func main() {
 		case 2:
 			displayRiwayatPembelian()
 		case 3:
+			fmt.Print("\nMasukkan nama pembeli: ")
+			var namaPembeli string
+			fmt.Scanln(&namaPembeli)
+
+			riwayat, err := getRiwayatPembeli(namaPembeli)
+			if err != nil {
+				fmt.Printf("Gagal mendapatkan riwayat pembelian: %v\n", err)
+				continue
+			}
+
+			if len(riwayat) == 0 {
+				fmt.Println("Tidak ada riwayat pembelian untuk nama tersebut.")
+			} else {
+				fmt.Println("\nRiwayat Pembelian Berdasarkan Nama:")
+				for _, p := range riwayat {
+					fmt.Printf("Nama: %s, Barang: %s, Jumlah: %d, Total Bayar: %s\n",
+						p.Nama, p.Barang, p.JumlahBeli, formatHarga(p.TotalBayar))
+				}
+			}
+		case 4:
 			fmt.Println("Terima kasih telah berbelanja di toko kami. Sampai jumpa!")
 			return
+
 		default:
 			fmt.Println("Pilihan tidak valid, silakan coba lagi.")
 		}
 	}
 }
 
-func displayRiwayatPembelian() { // method untuk menampilkan riwayat pembeli
+func displayRiwayatPembelian() {
 	if len(riwayatPembelian.elements) == 0 {
 		fmt.Println("\nBelum ada riwayat pembelian.")
 		return
@@ -114,13 +136,13 @@ func displayRiwayatPembelian() { // method untuk menampilkan riwayat pembeli
 	}
 }
 
-func getAllBarang() ([]Barang, error) { //untuk ngambil semua data yang ada di tabel barang
+func getAllBarang() ([]Barang, error) {
 	req, err := http.NewRequest("GET", apiURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("gagal membuat request GET: %w", err)
 	}
 
-	client := &http.Client{Timeout: 10 * time.Second} //jeda waktu
+	client := &http.Client{Timeout: 10 * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("gagal mengirim request: %w", err)
@@ -128,7 +150,7 @@ func getAllBarang() ([]Barang, error) { //untuk ngambil semua data yang ada di t
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(resp.Body) //gagal mengambil barang
+		body, _ := ioutil.ReadAll(resp.Body)
 		return nil, fmt.Errorf("gagal mengambil data barang: %s", body)
 	}
 
@@ -138,7 +160,7 @@ func getAllBarang() ([]Barang, error) { //untuk ngambil semua data yang ada di t
 		return nil, fmt.Errorf("gagal membaca respons body: %w", err)
 	}
 
-	err = json.Unmarshal(body, &barang) //tidak berhasil membaca jason
+	err = json.Unmarshal(body, &barang)
 	if err != nil {
 		return nil, fmt.Errorf("gagal meng-unmarshal JSON: %w", err)
 	}
@@ -221,12 +243,6 @@ func displayTotalBayar(pembelian Pembelian) {
 
 func postPembelian(pembelian Pembelian) error {
 	url := apiURL + "/pembelian"
-
-	// Validasi IdBarang harus sudah ada sebelum melakukan POST
-	if pembelian.IdBarang <= 0 {
-		return fmt.Errorf("IdBarang tidak valid: %d", pembelian.IdBarang)
-	}
-
 	payload, err := json.Marshal(pembelian)
 	if err != nil {
 		return fmt.Errorf("gagal mengubah data pembelian ke JSON: %w", err)
@@ -293,4 +309,37 @@ func updateStok(barangName string, jumlahBeli int) error {
 	}
 
 	return nil
+}
+func getRiwayatPembeli(namaPembeli string) ([]Pembelian, error) {
+	url := fmt.Sprintf("%s/riwayatPembeli/%s", apiURL, namaPembeli)
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("gagal membuat request GET: %w", err)
+	}
+
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("gagal mengirim request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := ioutil.ReadAll(resp.Body)
+		return nil, fmt.Errorf("gagal mendapatkan riwayat pembelian: %s", body)
+	}
+
+	var riwayat []Pembelian
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("gagal membaca respons body: %w", err)
+	}
+
+	err = json.Unmarshal(body, &riwayat)
+	if err != nil {
+		return nil, fmt.Errorf("gagal meng-unmarshal JSON: %w", err)
+	}
+
+	return riwayat, nil
 }
