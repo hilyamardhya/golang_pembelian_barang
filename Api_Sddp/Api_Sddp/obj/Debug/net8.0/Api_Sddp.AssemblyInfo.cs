@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Api_Sddp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b9ba995193647abfa469404a6479354d650320c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d55aa0442042d003cbe7c3fd62b684bd1ccf6860")]
 [assembly: System.Reflection.AssemblyProductAttribute("Api_Sddp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Api_Sddp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

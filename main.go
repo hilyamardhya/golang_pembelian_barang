@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -28,6 +29,11 @@ type Pembelian struct {
 	JumlahBeli int     `json:"jumlah"`
 	TotalBayar float64 `json:"totalBayar"`
 	IdBarang   int     `json:"idBarang"`
+}
+type LoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"pasword"`
+	Role     string `json:"role"`
 }
 
 type Stack struct {
@@ -56,7 +62,106 @@ func (s *Stack) Peek() (Pembelian, bool) {
 
 var riwayatPembelian Stack
 
+func adminLogin() bool {
+	var username, password string
+
+	fmt.Print("Masukkan username admin: ")
+	fmt.Scanln(&username)
+	fmt.Print("Masukkan password admin: ")
+	fmt.Scanln(&password)
+
+	loginData := LoginRequest{
+		Username: username,
+		Password: password,
+		Role:     "admin",
+	}
+
+	url := apiURL + "/login"
+	payload, err := json.Marshal(loginData)
+	if err != nil {
+		fmt.Printf("Gagal mengubah data login ke JSON: %v\n", err)
+		return false
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
+	if err != nil {
+		fmt.Printf("Gagal membuat request POST login: %v\n", err)
+		return false
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("Gagal mengirim request POST login: %v\n", err)
+		return false
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		fmt.Println("Login gagal: Username atau password salah.")
+		return false
+	}
+
+	fmt.Println("Login berhasil! Selamat datang, Admin.")
+	return true
+}
+
 func main() {
+	var isAdmin bool
+
+	// Menu awal: Login sebagai admin atau lanjut sebagai pengguna
+	fmt.Println("Selamat datang di Toko Kami!")
+	fmt.Println("Apakah Anda ingin login sebagai admin? (yes/no): ")
+	var loginChoice string
+	fmt.Scanln(&loginChoice)
+
+	if strings.ToLower(loginChoice) == "yes" {
+		isAdmin = adminLogin()
+		if isAdmin {
+			// Menu khusus admin
+			for {
+				fmt.Println("\nMenu Admin:")
+				fmt.Println("1. Cari Riwayat Pembelian Berdasarkan Nama Pembeli")
+				fmt.Println("2. Keluar")
+				fmt.Print("Pilih opsi (1/2): ")
+				var pilihan int
+				fmt.Scanln(&pilihan)
+
+				switch pilihan {
+				case 1:
+					fmt.Print("\nMasukkan nama pembeli: ")
+					var namaPembeli string
+					fmt.Scanln(&namaPembeli)
+
+					riwayat, err := getRiwayatPembeli(namaPembeli)
+					if err != nil {
+						fmt.Printf("Gagal mendapatkan riwayat pembelian: %v\n", err)
+						continue
+					}
+
+					if len(riwayat) == 0 {
+						fmt.Println("Tidak ada riwayat pembelian untuk nama tersebut.")
+					} else {
+						fmt.Println("\nRiwayat Pembelian Berdasarkan Nama:")
+						for _, p := range riwayat {
+							fmt.Printf("Nama: %s, Barang: %s, Jumlah: %d, Total Bayar: %s\n",
+								p.Nama, p.Barang, p.JumlahBeli, formatHarga(p.TotalBayar))
+						}
+					}
+				case 2:
+					fmt.Println("Keluar dari menu admin. Terima kasih.")
+					return
+				default:
+					fmt.Println("Pilihan tidak valid. Silakan coba lagi.")
+				}
+			}
+		} else {
+			fmt.Println("Login admin gagal. Kembali ke menu pengguna.")
+		}
+	}
+
+	// Menu utama untuk pengguna biasa
 	barang, err := getAllBarang()
 	if err != nil {
 		log.Fatalf("Gagal mengambil data barang: %v", err)
@@ -69,9 +174,8 @@ func main() {
 		fmt.Println("\nMenu:")
 		fmt.Println("1. Lakukan Pembelian")
 		fmt.Println("2. Lihat Riwayat Pembelian")
-		fmt.Println("3. Cari Riwayat Pembelian Berdasarkan Nama")
-		fmt.Println("4. Keluar")
-		fmt.Print("Pilih opsi (1/2/3/4): ")
+		fmt.Println("3. Keluar")
+		fmt.Print("Pilih opsi (1/2/3): ")
 		var pilihan int
 		fmt.Scanln(&pilihan)
 
@@ -93,29 +197,8 @@ func main() {
 		case 2:
 			displayRiwayatPembelian()
 		case 3:
-			fmt.Print("\nMasukkan nama pembeli: ")
-			var namaPembeli string
-			fmt.Scanln(&namaPembeli)
-
-			riwayat, err := getRiwayatPembeli(namaPembeli)
-			if err != nil {
-				fmt.Printf("Gagal mendapatkan riwayat pembelian: %v\n", err)
-				continue
-			}
-
-			if len(riwayat) == 0 {
-				fmt.Println("Tidak ada riwayat pembelian untuk nama tersebut.")
-			} else {
-				fmt.Println("\nRiwayat Pembelian Berdasarkan Nama:")
-				for _, p := range riwayat {
-					fmt.Printf("Nama: %s, Barang: %s, Jumlah: %d, Total Bayar: %s\n",
-						p.Nama, p.Barang, p.JumlahBeli, formatHarga(p.TotalBayar))
-				}
-			}
-		case 4:
 			fmt.Println("Terima kasih telah berbelanja di toko kami. Sampai jumpa!")
 			return
-
 		default:
 			fmt.Println("Pilihan tidak valid, silakan coba lagi.")
 		}
