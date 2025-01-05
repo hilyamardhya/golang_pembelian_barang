@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hilya\\Downloads\\New folder\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj": {}
+    "C:\\Users\\ASUS\\OneDrive\\Documents\\File Nadine\\SEM 3\\SDDP\\project_sddp\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hilya\\Downloads\\New folder\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj": {
+    "C:\\Users\\ASUS\\OneDrive\\Documents\\File Nadine\\SEM 3\\SDDP\\project_sddp\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hilya\\Downloads\\New folder\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\OneDrive\\Documents\\File Nadine\\SEM 3\\SDDP\\project_sddp\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj",
         "projectName": "Api_Sddp",
-        "projectPath": "C:\\Users\\hilya\\Downloads\\New folder\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj",
-        "packagesPath": "C:\\Users\\hilya\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hilya\\Downloads\\New folder\\Api_Sddp\\Api_Sddp\\obj\\",
+        "projectPath": "C:\\Users\\ASUS\\OneDrive\\Documents\\File Nadine\\SEM 3\\SDDP\\project_sddp\\Api_Sddp\\Api_Sddp\\Api_Sddp.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ASUS\\OneDrive\\Documents\\File Nadine\\SEM 3\\SDDP\\project_sddp\\Api_Sddp\\Api_Sddp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\hilya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -42,7 +42,7 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
         "SdkAnalysisLevel": "9.0.100"
       },
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

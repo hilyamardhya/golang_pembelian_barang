@@ -106,6 +106,29 @@ namespace API_Beli_barang.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] login loginRequest)
+        {
+            using (var conn = Connection)
+            {
+           
+                var sql = "SELECT * FROM admin WHERE username = @username AND password = @password AND role = @role";
+                var user = conn.QueryFirstOrDefault<login>(sql, new { Username = loginRequest.username, Password = loginRequest.pasword, Role = loginRequest.role });
+
+                if (user == null)
+                {
+                    return Unauthorized(new { message = "Username atau password salah." });
+                }
+
+                return Ok(new
+                {
+                    message = "Login berhasil",
+                    username = user.username,
+                    role = user.role
+                });
+            }
+        }
+
 
     }
 }

@@ -21,6 +21,22 @@
   },
   {
     "ContainingType": "API_Beli_barang.Controllers.barangController",
+    "Method": "Login",
+    "RelativePath": "api/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "Api_Sddp.MODELS.login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_Beli_barang.Controllers.barangController",
     "Method": "PostPembelian",
     "RelativePath": "api/pembelian",
     "HttpMethod": "POST",
