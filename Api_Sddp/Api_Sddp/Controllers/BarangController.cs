@@ -92,7 +92,7 @@ namespace API_Beli_barang.Controllers
         [HttpGet("riwayatPembeli/{namaPembeli}")]
         public ActionResult<IEnumerable<pembelian>> GetRiwayatPembeli(string namaPembeli)
         {
-            using (var conn = Connection)
+            using (var conn = Connection)    
             {
                 var sql = "SELECT * FROM pembelian WHERE Nama = @NamaPembeli";
                 var riwayat = conn.Query<pembelian>(sql, new { NamaPembeli = namaPembeli });
